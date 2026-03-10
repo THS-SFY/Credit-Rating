@@ -1,0 +1,108 @@
+<div class="row justify-content-center animate__animated animate__fadeIn">
+    <div class="col-lg-8 col-xl-7">
+        
+        <div class="text-center mb-4 fade-in-up delay-1">
+            <h2 class="fw-bold">Скоринг физических лиц</h2>
+            <p class="text-muted">Проверка контрагента по базам ФНС, ФССП и КАД в реальном времени</p>
+        </div>
+
+        <div class="card border-0 fade-in-up delay-2">
+            <div class="card-header bg-primary py-3">
+                <h5 class="mb-0 text-white"><i class="bi bi-search me-2"></i> Параметры запроса</h5>
+            </div>
+            <div class="card-body p-4">
+                <form action="/credit/calculate" method="POST" class="needs-validation" novalidate>
+                    
+                    <div class="form-floating mb-4">
+                        <input type="text" class="form-control" id="inn" name="inn" placeholder="770000000000" required>
+                        <label for="inn"><i class="bi bi-person-vcard me-1"></i> ИНН физического лица (12 цифр)</label>
+                    </div>
+                    
+                    <div class="form-floating mb-4">
+                        <input type="date" class="form-control" id="birthDate" name="birthDate" placeholder="Дата рождения" required>
+                        <label for="birthDate"><i class="bi bi-calendar-date me-1"></i> Дата рождения</label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 btn-lg py-3 shadow-sm rounded-3">
+                        <i class="bi bi-shield-lock me-2"></i> Инициировать проверку
+                    </button>
+                    <div class="text-center mt-3 text-muted" style="font-size: 0.85rem;">
+                        <i class="bi bi-info-circle me-1"></i> Данные передаются по зашифрованному API
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <% if (typeof result !== 'undefined' && result) { %>
+            <div class="card mt-5 border-0 shadow-lg fade-in-up" style="border-top: 5px solid var(--bs-<%= result.colorClass %>) !important;">
+                <div class="card-body p-5 text-center position-relative">
+                    
+                    <!-- Декоративный бэкграунд -->
+                    <div class="position-absolute top-0 start-50 translate-middle-x mt-4" style="opacity: 0.03; z-index: 0;">
+                        <i class="bi bi-bar-chart-fill" style="font-size: 15rem;"></i>
+                    </div>
+
+                    <div class="position-relative" style="z-index: 1;">
+                        <h6 class="text-uppercase fw-bold text-muted mb-2">Итоговый скоринговый балл</h6>
+                        <h1 class="display-1 fw-black text-<%= result.colorClass %> mb-0" style="font-weight: 800; letter-spacing: -2px;">
+                            <%= result.totalScore %>
+                        </h1>
+                        <p class="lead mb-4">Клиент: <strong><%= result.clientName %></strong> <br> <small class="text-muted">ИНН: <%= result.inn %></small></p>
+                        
+                        <div class="d-inline-block px-4 py-2 rounded-pill bg-<%= result.colorClass %> bg-opacity-10 text-<%= result.colorClass %> fw-bold fs-5 mb-5">
+                            <%= result.decision %>
+                        </div>
+                        
+                        <hr class="mb-4">
+                        
+                        <div class="text-start">
+                            <h6 class="fw-bold mb-3 text-secondary"><i class="bi bi-list-check me-2"></i>Детализация по государственным реестрам:</h6>
+                            <ul class="list-group list-group-flush text-start">
+                                <li class="list-group-item d-flex justify-content-between align-items-center px-0 py-3">
+                                    <div>
+                                        <div class="fw-bold text-dark"><i class="bi bi-building me-2 text-primary"></i> ФНС (Налог.ру)</div>
+                                        <small class="text-muted d-block ms-4">Статус плательщика НПД</small>
+                                    </div>
+                                    <span class="badge bg-light text-dark border px-3 py-2 text-wrap text-start" style="max-width: 50%; line-height: 1.4;"><%= result.nalogStatus %></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center px-0 py-3">
+                                    <div>
+                                        <div class="fw-bold text-dark"><i class="bi bi-bank me-2 text-primary"></i> ФССП</div>
+                                        <small class="text-muted d-block ms-4">Исполнительные производства</small>
+                                    </div>
+                                    <span class="badge bg-light text-dark border px-3 py-2 text-wrap text-start" style="max-width: 50%; line-height: 1.4;"><%= result.fsspStatus %></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center px-0 py-3">
+                                    <div>
+                                        <div class="fw-bold text-dark"><i class="bi bi-hammer me-2 text-primary"></i> КАД Арбитр</div>
+                                        <small class="text-muted d-block ms-4">Судебные процессы</small>
+                                    </div>
+                                    <span class="badge bg-light text-dark border px-3 py-2 text-wrap text-start" style="max-width: 50%; line-height: 1.4;"><%= result.kadStatus %></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center px-0 py-3">
+                                    <div>
+                                        <div class="fw-bold text-dark"><i class="bi bi-briefcase me-2 text-primary"></i> Контур.Фокус</div>
+                                        <small class="text-muted d-block ms-4">Сводная благонадежность</small>
+                                    </div>
+                                    <span class="badge bg-light text-dark border px-3 py-2 text-wrap text-start" style="max-width: 50%; line-height: 1.4;"><%= result.konturStatus %></span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="text-muted mt-4 text-center" style="font-size: 0.8rem;">
+                            <i class="bi bi-clock me-1"></i> Сгенерировано: <%= new Date(result.timestamp).toLocaleString('ru-RU') %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+
+    </div>
+</div>
+
+<style>
+.form-floating > .form-control:focus ~ label::after, .form-floating > .form-control:not(:placeholder-shown) ~ label::after {
+    background-color: transparent !important;
+}
+.fw-black { font-weight: 900; }
+</style>

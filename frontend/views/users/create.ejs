@@ -1,0 +1,79 @@
+<div class="row justify-content-center animate__animated animate__fadeIn">
+    <div class="col-lg-8 col-xl-7">
+        <div class="d-flex align-items-center mb-4 fade-in-up delay-1">
+            <a href="/users" class="btn btn-light rounded-circle p-2 d-inline-flex align-items-center justify-content-center me-3 shadow-sm" style="width: 40px; height: 40px;">
+                <i class="bi bi-arrow-left"></i>
+            </a>
+            <h2 class="fw-bold mb-0">Новый клиент</h2>
+        </div>
+
+        <div class="card shadow-sm border-0 fade-in-up delay-2">
+            <div class="card-body p-4 p-md-5">
+                <form action="/users" method="POST" class="needs-validation" novalidate>
+                    
+                    <h6 class="text-uppercase fw-bold text-primary mb-3" style="font-size: 0.8rem; letter-spacing: 1px;">Основные данные</h6>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control bg-light border-0" id="firstName" name="firstName" value="<%= typeof user !== 'undefined' ? user.firstName || '' : '' %>" placeholder="Иван" required>
+                                <label for="firstName"><i class="bi bi-person me-1"></i> Имя</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control bg-light border-0" id="lastName" name="lastName" value="<%= typeof user !== 'undefined' ? user.lastName || '' : '' %>" placeholder="Иванов" required>
+                                <label for="lastName"><i class="bi bi-person-fill me-1"></i> Фамилия</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-floating">
+                                <input type="text" class="form-control bg-light border-0" id="inn" name="inn" value="<%= typeof user !== 'undefined' ? user.inn || '' : '' %>" placeholder="ИНН" required>
+                                <label for="inn"><i class="bi bi-person-vcard me-1"></i> ИНН клиента</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h6 class="text-uppercase fw-bold text-primary mb-3 mt-4" style="font-size: 0.8rem; letter-spacing: 1px;">Учетная запись</h6>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control bg-light border-0" id="username" name="username" value="<%= typeof user !== 'undefined' ? user.username || '' : '' %>" placeholder="ivanov99" required>
+                                <label for="username"><i class="bi bi-at me-1"></i> Логин (Username)</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="email" class="form-control bg-light border-0" id="email" name="email" value="<%= typeof user !== 'undefined' ? user.email || '' : '' %>" placeholder="name@example.com" required>
+                                <label for="email"><i class="bi bi-envelope me-1"></i> Email</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-floating">
+                                <input type="password" class="form-control bg-light border-0" id="password" name="password" placeholder="Пароль" required>
+                                <label for="password"><i class="bi bi-lock me-1"></i> Пароль</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-5 pt-3 border-top d-flex justify-content-end gap-3">
+                        <a href="/users" class="btn btn-light px-4 py-2 fw-semibold text-muted">Отмена</a>
+                        <button type="submit" class="btn btn-primary px-4 py-2 shadow-sm fw-semibold">
+                            <i class="bi bi-check-lg me-1"></i> Сохранить
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.form-floating > .form-control:focus ~ label::after, .form-floating > .form-control:not(:placeholder-shown) ~ label::after {
+    background-color: transparent !important;
+}
+.form-control.bg-light:focus {
+    background-color: #fff !important;
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+    border: 1px solid var(--primary-color) !important;
+}
+</style>

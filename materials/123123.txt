@@ -1,0 +1,363 @@
+//views/users/create.ejs:
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-hover">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">
+                    <i class="bi bi-person-plus"></i>
+                    Создание нового пользователя
+                </h4>
+            </div>
+            <div class="card-body">
+                <form action="/users" method="POST" class="needs-validation" novalidate>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="username" class="form-label">
+                                    <i class="bi bi-person"></i>
+                                    Имя пользователя
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-at"></i>
+                                    </span>
+                                    <input type="text" 
+                                           class="form-control" 
+                                           id="username" 
+                                           name="username" 
+                                           value="<%= typeof user !== 'undefined' ? user.username || '' : '' %>"
+                                           data-validate="username"
+                                           required>
+                                    <div class="invalid-feedback">
+                                        Введите корректное имя пользователя (минимум 3 символа)
+                                    </div>
+                                </div>
+                                <div class="form-text">
+                                    Только буквы, цифры и подчеркивание
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="email" class="form-label">
+                                    <i class="bi bi-envelope"></i>
+                                    Email адрес
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-envelope-at"></i>
+                                    </span>
+                                    <input type="email" 
+                                           class="form-control" 
+                                           id="email" 
+                                           name="email" 
+                                           value="<%= typeof user !== 'undefined' ? user.email || '' : '' %>"
+                                           data-validate="email"
+                                           required>
+                                    <div class="invalid-feedback">
+                                        Введите корректный email адрес
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="firstName" class="form-label">
+                                    <i class="bi bi-person-badge"></i>
+                                    Имя
+                                </label>
+                                <input type="text" 
+                                       class="form-control" 
+                                       id="firstName" 
+                                       name="firstName" 
+                                       value="<%= typeof user !== 'undefined' ? user.firstName || '' : '' %>"
+                                       data-validate="required"
+                                       required>
+                                <div class="invalid-feedback">
+                                    Введите имя пользователя
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="lastName" class="form-label">
+                                    <i class="bi bi-person-badge-fill"></i>
+                                    Фамилия
+                                </label>
+                                <input type="text" 
+                                       class="form-control" 
+                                       id="lastName" 
+                                       name="lastName" 
+                                       value="<%= typeof user !== 'undefined' ? user.lastName || '' : '' %>"
+                                       data-validate="required"
+                                       required>
+                                <div class="invalid-feedback">
+                                    Введите фамилию пользователя
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label">
+                            <i class="bi bi-lock"></i>
+                            Пароль
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-key"></i>
+                            </span>
+                            <input type="password" 
+                                   class="form-control" 
+                                   id="password" 
+                                   name="password"
+                                   data-validate="password"
+                                   required>
+                            <button class="btn btn-outline-secondary" 
+                                    type="button" 
+                                    onclick="togglePasswordVisibility('password')">
+                                <i class="bi bi-eye" id="password-icon"></i>
+                            </button>
+                            <div class="invalid-feedback">
+                                Пароль должен содержать минимум 6 символов
+                            </div>
+                        </div>
+                        <div class="form-text">
+                            Рекомендуется использовать пароль длиной не менее 8 символов
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="confirmPassword" class="form-label">
+                            <i class="bi bi-lock-fill"></i>
+                            Подтверждение пароля
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-key-fill"></i>
+                            </span>
+                            <input type="password" 
+                                   class="form-control" 
+                                   id="confirmPassword" 
+                                   name="confirmPassword"
+                                   required>
+                            <button class="btn btn-outline-secondary" 
+                                    type="button" 
+                                    onclick="togglePasswordVisibility('confirmPassword')">
+                                <i class="bi bi-eye" id="confirmPassword-icon"></i>
+                            </button>
+                            <div class="invalid-feedback">
+                                Пароли не совпадают
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="/users" class="btn btn-secondary me-md-2">
+                            <i class="bi bi-arrow-left"></i>
+                            Отмена
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-lg"></i>
+                            Создать пользователя
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Переключение видимости пароля
+function togglePasswordVisibility(fieldId) {
+    const field = document.getElementById(fieldId);
+    const icon = document.getElementById(fieldId + '-icon');
+    
+    if (field.type === 'password') {
+        field.type = 'text';
+        icon.className = 'bi bi-eye-slash';
+    } else {
+        field.type = 'password';
+        icon.className = 'bi bi-eye';
+    }
+}
+
+// Валидация подтверждения пароля
+document.getElementById('confirmPassword').addEventListener('input', function() {
+    const password = document.getElementById('password').value;
+    const confirmPassword = this.value;
+    
+    if (password !== confirmPassword) {
+        this.setCustomValidity('Пароли не совпадают');
+        this.classList.add('is-invalid');
+    } else {
+        this.setCustomValidity('');
+        this.classList.remove('is-invalid');
+        this.classList.add('is-valid');
+    }
+});
+
+// Синхронизация валидации паролей
+document.getElementById('password').addEventListener('input', function() {
+    const confirmPassword = document.getElementById('confirmPassword');
+    if (confirmPassword.value) {
+        confirmPassword.dispatchEvent(new Event('input'));
+    }
+});
+</script>
+#################################################################################
+//views/users/edit.ejs:
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-hover">
+            <div class="card-header bg-warning text-dark">
+                <h4 class="mb-0">
+                    <i class="bi bi-pencil-square"></i>
+                    Редактирование пользователя
+                </h4>
+            </div>
+            <div class="card-body">
+                <form action="/users/<%= user.id %>" method="POST" data-method="PUT" class="needs-validation" novalidate>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="username" class="form-label">
+                                    <i class="bi bi-person"></i>
+                                    Имя пользователя
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-at"></i>
+                                    </span>
+                                    <input type="text" 
+                                           class="form-control" 
+                                           id="username" 
+                                           name="username" 
+                                           value="<%= user.username %>"
+                                           data-validate="username"
+                                           required>
+                                    <div class="invalid-feedback">
+                                        Введите корректное имя пользователя
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="email" class="form-label">
+                                    <i class="bi bi-envelope"></i>
+                                    Email адрес
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-envelope-at"></i>
+                                    </span>
+                                    <input type="email" 
+                                           class="form-control" 
+                                           id="email" 
+                                           name="email" 
+                                           value="<%= user.email %>"
+                                           data-validate="email"
+                                           required>
+                                    <div class="invalid-feedback">
+                                        Введите корректный email адрес
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="firstName" class="form-label">
+                                    <i class="bi bi-person-badge"></i>
+                                    Имя
+                                </label>
+                                <input type="text" 
+                                       class="form-control" 
+                                       id="firstName" 
+                                       name="firstName" 
+                                       value="<%= user.firstName %>"
+                                       required>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="lastName" class="form-label">
+                                    <i class="bi bi-person-badge-fill"></i>
+                                    Фамилия
+                                </label>
+                                <input type="text" 
+                                       class="form-control" 
+                                       id="lastName" 
+                                       name="lastName" 
+                                       value="<%= user.lastName %>"
+                                       required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label">
+                            <i class="bi bi-lock"></i>
+                            Новый пароль
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-key"></i>
+                            </span>
+                            <input type="password" 
+                                   class="form-control" 
+                                   id="password" 
+                                   name="password"
+                                   placeholder="Оставьте пустым, если не хотите менять">
+                            <button class="btn btn-outline-secondary" 
+                                    type="button" 
+                                    onclick="togglePasswordVisibility('password')">
+                                <i class="bi bi-eye" id="password-icon"></i>
+                            </button>
+                        </div>
+                        <div class="form-text">
+                            Оставьте поле пустым, если не хотите изменять пароль
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="/users" class="btn btn-secondary me-md-2">
+                            <i class="bi bi-arrow-left"></i>
+                            Отмена
+                        </a>
+                        <button type="submit" class="btn btn-warning text-dark">
+                            <i class="bi bi-check-lg"></i>
+                            Сохранить изменения
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function togglePasswordVisibility(fieldId) {
+    const field = document.getElementById(fieldId);
+    const icon = document.getElementById(fieldId + '-icon');
+    
+    if (field.type === 'password') {
+        field.type = 'text';
+        icon.className = 'bi bi-eye-slash';
+    } else {
+        field.type = 'password';
+        icon.className = 'bi bi-eye';
+    }
+}
+</script>

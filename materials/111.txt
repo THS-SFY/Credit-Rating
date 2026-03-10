@@ -1,0 +1,27 @@
+Задание: Создание и настройка клиентского приложения
+1. Создать базовую структуру Node.js приложения:
+cd ~/webapp-course/frontend
+npm init -y
+
+# Установка зависимостей
+npm install express ejs express-ejs-layouts axios method-override cookie-parser helmet compression morgan
+
+# Установка зависимостей для разработки  
+npm install --save-dev nodemon concurrently
+
+# Обновление package.json со скриптами
+2. Обновить package.json:
+{
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "build": "echo 'No build process needed for server-side rendered app'",
+    "test": "echo 'Tests will be added later'"
+  }
+}
+3. Создать основные файлы приложения согласно структуре, описанной в лекции
+4. Протестировать работу приложения:
+# Запуск в режиме разработки
+npm run dev
+
+# Проверка доступности на http://localhost:3000
